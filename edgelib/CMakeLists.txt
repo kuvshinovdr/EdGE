@@ -1,23 +1,33 @@
-find_package(doctest QUIET)
+add_library(edgelib INTERFACE)
 
-if(NOT doctest_FOUND)
-    include(FetchContent)
+target_include_directories(edgelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+target_compile_features(edgelib INTERFACE cxx_std_23)
 
-    FetchContent_Declare(
-        doctest
-        GIT_REPOSITORY https://github.com/doctest/doctest.git
-        GIT_TAG v2.5.3
+if(BUILD_TESTING)
+    find_package(doctest QUIET)
+
+    if(NOT doctest_FOUND)
+        include(FetchContent)
+
+        # doctest v2.5.3 declares a cmake_minimum_required below 3.5,
+        # which CMake 4.x rejects by default.
+        set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
+        FetchContent_Declare(
+            doctest
+            GIT_REPOSITORY https://github.com/doctest/doctest.git
+            GIT_TAG v2.5.3
+        )
+
+        FetchContent_MakeAvailable(doctest)
+    endif()
+
+    add_executable(edgelib_tests
+        tests/main.cpp
+        tests/graph_test.cpp
     )
 
-    FetchContent_MakeAvailable(doctest)
+    target_link_libraries(edgelib_tests PRIVATE edgelib doctest::doctest)
+
+    add_test(NAME edgelib_tests COMMAND edgelib_tests)
 endif()
-
-file(GLOB EDGELIB_TEST_SOURCES CONFIGURE_DEPENDS
-    "${CMAKE_CURRENT_SOURCE_DIR}/tests/*.cpp"
-)
-
-add_executable(edgelib_tests EDGELIB_TEST_SOURCES)
-
-target_link_libraries(edgelib_tests PRIVATE doctest::doctest)
-
-add_test(NAME edgelib_tests COMMAND edgelib_tests)

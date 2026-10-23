@@ -7,15 +7,11 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(BUILD_TESTS "Build the testing suite" ON)
+include(CTest) # Defines BUILD_TESTING (ON by default) and calls enable_testing()
 
-if(BUILD_TESTS)
-    include(CTest)
-endif()
+find_package(Qt6 REQUIRED COMPONENTS Widgets Test)
 
-if(BUILD_TESTS)
-# Being header-only the library contains only tests as a build target
-    add_subdirectory(edgelib)
-endif()
+qt_standard_project_setup()
 
+add_subdirectory(edgelib)
 add_subdirectory(edgegui)
