@@ -1,7 +1,7 @@
 #ifndef EDGEGUI_GRAPH_VIEW_MODEL_HPP
 #define EDGEGUI_GRAPH_VIEW_MODEL_HPP
 
-#include <edgelib/graph.hpp>
+#include <graph.hpp>
 
 #include <cstddef>
 #include <functional>

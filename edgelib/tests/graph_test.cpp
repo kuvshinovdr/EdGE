@@ -1,6 +1,6 @@
 #include <doctest/doctest.h>
 
-#include <edgelib/graph.hpp>
+#include <graph.hpp>
 
 TEST_SUITE("Graph") {
     TEST_CASE("addNode creates an isolated node") {
