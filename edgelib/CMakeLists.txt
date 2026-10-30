@@ -25,6 +25,7 @@ if(BUILD_TESTING)
     add_executable(edgelib_tests
         tests/main.cpp
         tests/graph_test.cpp
+        tests/edge_list_test.cpp
     )
 
     target_link_libraries(edgelib_tests PRIVATE edgelib doctest::doctest)
