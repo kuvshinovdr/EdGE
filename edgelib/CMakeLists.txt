@@ -1,6 +1,12 @@
 add_library(edgelib INTERFACE)
 
-target_include_directories(edgelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
+# Headers listed as INTERFACE sources are never compiled; this only makes
+# IDEs (e.g. Qt Creator) show them in the project tree.
+target_sources(edgelib INTERFACE
+    include/edgelib/graph.hpp
+)
+
+target_include_directories(edgelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include/edgelib")
 target_compile_features(edgelib INTERFACE cxx_std_23)
 
 if(BUILD_TESTING)
