@@ -6,7 +6,7 @@ target_sources(edgelib INTERFACE
     include/edgelib/graph.hpp
 )
 
-target_include_directories(edgelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include/edgelib")
+target_include_directories(edgelib INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 target_compile_features(edgelib INTERFACE cxx_std_23)
 
 if(BUILD_TESTING)
@@ -32,6 +32,10 @@ if(BUILD_TESTING)
         tests/main.cpp
         tests/graph_test.cpp
         tests/edge_list_test.cpp
+        include/edgelib/graph.hpp # TODO: remove it
+        include/edgelib/edge_like.hpp
+        include/edgelib/vertex_like.hpp
+        tests/concepts_check.cpp
     )
 
     target_link_libraries(edgelib_tests PRIVATE edgelib doctest::doctest)
