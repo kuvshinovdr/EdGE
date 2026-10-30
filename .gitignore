@@ -72,4 +72,4 @@ Testing/
 # Local setup
 .clangd
 opencode.json
-
+*.user
