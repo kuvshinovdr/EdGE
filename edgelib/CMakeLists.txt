@@ -36,6 +36,7 @@ if(BUILD_TESTING)
         include/edgelib/edge_like.hpp
         include/edgelib/vertex_like.hpp
         tests/concepts_check.cpp
+        include/edgelib/edge_list.hpp
     )
 
     target_link_libraries(edgelib_tests PRIVATE edgelib doctest::doctest)
