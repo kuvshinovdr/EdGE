@@ -4,7 +4,7 @@
 #include "edge_like.hpp"
 
 #include <ranges>
-
+#include <algorithm>
 #include <vector>
 
 namespace edgelib {

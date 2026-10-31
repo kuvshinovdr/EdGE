@@ -10,14 +10,14 @@ namespace edgelib {
 namespace impl {
 	template <typename T>
 	concept TupleLike = requires {
-		std::tuple_size<T>::value;
+        std::tuple_size<std::remove_cvref_t<T>>::value;
 	};
 
 	template <typename T>
-	concept Pair = TupleLike<T> && std::tuple_size_v<T> == 2;
+    concept Pair = TupleLike<T> && std::tuple_size_v<std::remove_cvref_t<T>> == 2;
 
 	template <typename T>
-	concept Triple = TupleLike<T> && std::tuple_size_v<T> == 3;
+    concept Triple = TupleLike<T> && std::tuple_size_v<std::remove_cvref_t<T>> == 3;
 }
 
 /// Ребро, представленное идентификатором аналогично вершине.
@@ -49,7 +49,7 @@ namespace impl {
 
 	constexpr auto third(Triple auto&& t) {
         auto [_1, _2, h] = t;
-        return t;
+        return h;
     }
 }
 
@@ -57,9 +57,9 @@ namespace impl {
 template <typename T>
 concept VertexHandlePair = impl::Pair<T> &&
 	requires(T& e) {
-		{ impl::first(e)  } -> VertexHandle;
-		{ impl::second(e) } -> VertexHandle;
-		{ impl::second(e) } -> std::same_as<decltype(impl::first(e))>;
+        { impl::first(e)  } -> VertexHandle;
+        { impl::second(e) } -> VertexHandle;
+        { impl::second(e) } -> std::same_as<decltype(impl::first(e))>;
     };
 
 /// Ребро, представленное парой вершин и идентификатором самого ребра.
@@ -68,10 +68,10 @@ concept VertexHandlePair = impl::Pair<T> &&
 template <typename T>
 concept VertexEdgeHandleTriple = impl::Triple<T> &&
 	requires(T& e) {
-		{ impl::first(e)  } -> VertexHandle;
-		{ impl::second(e) } -> VertexHandle;
-		{ impl::second(e) } -> std::same_as<decltype(impl::first(e))>;
-		{ impl::third(e)  } -> EdgeHandle;
+        { impl::first(e)  } -> VertexHandle;
+        { impl::second(e) } -> VertexHandle;
+        { impl::second(e) } -> std::same_as<decltype(impl::first(e))>;
+        { impl::third(e)  } -> EdgeHandle;
     };
 
 /// Объединение трёх вариантов представления ребра.
