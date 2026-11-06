@@ -17,6 +17,10 @@ concept RegularTotallyOrdered = std::regular<T>
 template <typename T>
 concept VertexHandle = RegularTotallyOrdered<T>;
 
+namespace config {
+	constexpr void vertexHandleType(auto) {}
+}
+
 }
 
 #endif//VERTEX_LIKE_HPP

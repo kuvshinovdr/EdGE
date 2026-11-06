@@ -38,7 +38,7 @@ namespace impl {
     }
 
 	constexpr auto first(Triple auto&& t) {
-        auto [u, _2, _3] = t;
+		auto [u, _2, _3] = t;
         return u;
     }
 
@@ -62,6 +62,11 @@ concept VertexHandlePair = impl::Pair<T> &&
         { impl::second(e) } -> std::same_as<decltype(impl::first(e))>;
     };
 
+namespace config {
+	template <VertexHandlePair VP>
+	constexpr auto vertexHandleType(VP vp) { return impl::first(vp); }
+}
+
 /// Ребро, представленное парой вершин и идентификатором самого ребра.
 /// Иногда может быть достаточно просто прицепить атрибут к паре индексов вершин третьим аргументом.
 /// Можно обеспечить такое поведение через фиктивный диапазон, который по "хэндлу" ребра возвращает его же.
@@ -74,11 +79,20 @@ concept VertexEdgeHandleTriple = impl::Triple<T> &&
         { impl::third(e)  } -> EdgeHandle;
     };
 
+namespace config {
+	template <VertexEdgeHandleTriple VP>
+	constexpr auto vertexHandleType(VP vp) { return impl::first(vp); }
+}
+
 /// Объединение трёх вариантов представления ребра.
 template <typename T>
 concept Edge = EdgeHandle<T>
 			|| VertexHandlePair<T>
             || VertexEdgeHandleTriple<T>;
+
+template <Edge E>
+using EdgeVertexHandleType =
+	decltype(config::vertexHandleType(E{}));
 
 }
 
